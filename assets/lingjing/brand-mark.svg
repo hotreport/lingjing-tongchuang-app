@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
+  <title id="title">灵境童创品牌图形标</title>
+  <desc id="desc">四块彩色积木围绕白色灵感星的品牌符号。</desc>
+  <rect x="26" y="26" width="94" height="94" rx="27" fill="#247D70"/>
+  <rect x="136" y="26" width="94" height="94" rx="27" fill="#F1A451"/>
+  <rect x="26" y="136" width="94" height="94" rx="27" fill="#5D82C2"/>
+  <rect x="136" y="136" width="94" height="94" rx="27" fill="#8BBD94"/>
+  <path d="M128 61l17 67-17 67-17-67z" fill="#FFFFFF"/>
+  <circle cx="128" cy="128" r="9" fill="#D8EFE6"/>
+</svg>
