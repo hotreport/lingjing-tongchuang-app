@@ -1,4 +1,4 @@
-name: Deploy GitHub Pages
+name: Build and publish GitHub Pages
 
 on:
   push:
@@ -6,9 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
 concurrency:
   group: pages
@@ -16,9 +14,6 @@ concurrency:
 
 jobs:
   build-and-deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - name: Check out source
@@ -32,18 +27,20 @@ jobs:
         run: npm ci
       - name: Check protected runtime
         run: npm run check:runtime
-      - name: Build static app for this repository path
+      - name: Build static app
         run: |
           npx tsc --noEmit
           npx vite build --base="/${GITHUB_REPOSITORY#*/}/"
           node scripts/prepare-pages-build.mjs
-      - name: Configure Pages
-        uses: actions/configure-pages@v5
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: dist/client
-      - name: Deploy Pages
-        id: deployment
-        uses: actions/deploy-pages@v5
+      - name: Publish static app to gh-pages
+        run: |
+          mkdir -p /tmp/pages-output
+          cp -R dist/client/. /tmp/pages-output/
+          touch /tmp/pages-output/.nojekyll
+          git checkout --orphan gh-pages
+          git rm -rf .
+          cp -R /tmp/pages-output/. .
+          git add --all
+          git -c user.name='github-actions[bot]' -c user.email='41898282+github-actions[bot]@users.noreply.github.com' commit -m "Deploy interactive prototype"
+          git push --force origin gh-pages
 
